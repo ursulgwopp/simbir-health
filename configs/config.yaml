@@ -1,0 +1,9 @@
+port: "8081"
+
+db:
+  # host:     "db"
+  host: "localhost"
+  port:     "5432"
+  username: "postgres"
+  dbname:   "account_microservice"
+  sslmode:  "disable"
