@@ -53,3 +53,7 @@ type AdminAccountRequest struct {
 	Password  string   `json:"password"`
 	Roles     []string `json:"roles"`
 }
+
+type RefreshRequest struct {
+	RefreshToken string `json:"refreshToken"`
+}

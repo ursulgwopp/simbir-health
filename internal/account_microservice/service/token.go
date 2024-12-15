@@ -2,8 +2,8 @@ package service
 
 import (
 	"errors"
-	"log"
 	"os"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
@@ -18,8 +18,31 @@ func (s *Service) Validate(token string) (models.TokenInfo, error) {
 	return token_, nil
 }
 
-func (s *Service) Refresh(token string) error {
-	return s.repo.Refresh(token)
+func (s *Service) Refresh(token string) (string, error) {
+	if err := s.repo.Refresh(token); err != nil {
+		return "", err
+	}
+
+	tokenInfo, err := s.ParseToken(token)
+	if err != nil {
+		return "", err
+	}
+
+	newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, &models.TokenClaims{
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+			IssuedAt:  time.Now().Unix(),
+		},
+		UserId:  tokenInfo.UserId,
+		IsAdmin: tokenInfo.IsAdmin,
+	})
+
+	newTokenString, err := newToken.SignedString([]byte(os.Getenv("SECRET_KEY")))
+	if err != nil {
+		return "", err
+	}
+
+	return newTokenString, nil
 }
 
 func (s *Service) ParseToken(token string) (models.TokenInfo, error) {
@@ -38,8 +61,6 @@ func (s *Service) ParseToken(token string) (models.TokenInfo, error) {
 	if !ok {
 		return models.TokenInfo{}, errors.New("token claims are not of type tokenClaims")
 	}
-
-	log.Println(claims)
 
 	return models.TokenInfo{UserId: claims.UserId, IsAdmin: claims.IsAdmin}, nil
 }

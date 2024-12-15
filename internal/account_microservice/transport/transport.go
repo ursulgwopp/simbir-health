@@ -16,7 +16,7 @@ type AccountService interface {
 	SignOut(token string) error
 
 	Validate(token string) (models.TokenInfo, error)
-	Refresh(token string) error
+	Refresh(token string) (string, error)
 	ParseToken(token string) (models.TokenInfo, error)
 	IsTokenInvalid(token string) (bool, error)
 

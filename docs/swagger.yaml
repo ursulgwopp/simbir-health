@@ -1,5 +1,10 @@
 basePath: /
 definitions:
+  models.RefreshRequest:
+    properties:
+      refreshToken:
+        type: string
+    type: object
   models.Response:
     properties:
       message: {}
@@ -28,6 +33,45 @@ info:
   title: Account Microservice
   version: "1.0"
 paths:
+  /api/Authentication/Refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh token
+      operationId: refresh
+      parameters:
+      - description: Refresh Token
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Refresh
+      tags:
+      - Authentication
   /api/Authentication/SignIn:
     post:
       consumes:

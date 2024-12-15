@@ -5,7 +5,10 @@ package repository
 // }
 
 func (r *PostgresRepository) Refresh(token string) error {
-	return nil
+	query := `INSERT INTO blacklist (token) VALUES ($1)`
+	_, err := r.db.Exec(query, token)
+
+	return err
 }
 
 func (r *PostgresRepository) IsTokenInvalid(token string) (bool, error) {

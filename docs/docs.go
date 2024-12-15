@@ -15,6 +15,65 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/Authentication/Refresh": {
+            "post": {
+                "description": "Refresh token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Refresh",
+                "operationId": "refresh",
+                "parameters": [
+                    {
+                        "description": "Refresh Token",
+                        "name": "Input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RefreshRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/Authentication/SignIn": {
             "post": {
                 "description": "Sign Into Account",
@@ -244,6 +303,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.RefreshRequest": {
+            "type": "object",
+            "properties": {
+                "refreshToken": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Response": {
             "type": "object",
             "properties": {
