@@ -15,14 +15,18 @@ type SignInRequest struct {
 }
 
 type TokenInfo struct {
-	UserId  int  `json:"user_id"`
-	IsAdmin bool `json:"is_admin"`
+	UserId    int  `json:"user_id"`
+	IsAdmin   bool `json:"is_admin"`
+	IsManager bool `json:"is_manager"`
+	IsDoctor  bool `json:"is_doctor"`
 }
 
 type TokenClaims struct {
 	jwt.StandardClaims
-	UserId  int  `json:"user_id"`
-	IsAdmin bool `json:"is_admin"`
+	UserId    int  `json:"user_id"`
+	IsAdmin   bool `json:"is_admin"`
+	IsManager bool `json:"is_manager"`
+	IsDoctor  bool `json:"is_doctor"`
 }
 
 type AccountUpdate struct {
@@ -52,6 +56,15 @@ type AdminAccountRequest struct {
 	Username  string   `json:"username"`
 	Password  string   `json:"password"`
 	Roles     []string `json:"roles"`
+}
+
+type AdminAccountResponse struct {
+	Id        int      `json:"id"`
+	LastName  string   `json:"lastName"`
+	FirstName string   `json:"firstName"`
+	Username  string   `json:"username"`
+	Roles     []string `json:"roles"`
+	IsDeleted bool     `json:"isDeleted"`
 }
 
 type RefreshRequest struct {

@@ -65,10 +65,6 @@ func (t *Transport) adminIdentity(c *gin.Context) {
 		models.NewErrorResponse(c, http.StatusForbidden, "access denied")
 		return
 	}
-
-	c.Set("token", header)
-	c.Set("user_id", tokenInfo.UserId)
-	c.Set("is_admin", tokenInfo.IsAdmin)
 }
 
 func getUserId(c *gin.Context) (int, error) {

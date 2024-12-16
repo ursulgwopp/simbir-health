@@ -29,9 +29,11 @@ func (r *PostgresRepository) SignIn(req models.SignInRequest) (models.TokenInfo,
 		return models.TokenInfo{}, err
 	}
 
-	isAdmin := slices.Contains(roles, "admin")
+	isAdmin := slices.Contains(roles, "Admin")
+	isManager := slices.Contains(roles, "Manager")
+	isDoctor := slices.Contains(roles, "Doctor")
 
-	return models.TokenInfo{UserId: id, IsAdmin: isAdmin}, nil
+	return models.TokenInfo{UserId: id, IsAdmin: isAdmin, IsManager: isManager, IsDoctor: isDoctor}, nil
 }
 
 func (r *PostgresRepository) SignOut(token string) error {

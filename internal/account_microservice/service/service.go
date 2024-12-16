@@ -16,7 +16,7 @@ type AccountRepository interface {
 	UserListDoctors(nameFilter string, from int, count int) ([]models.DoctorResponse, error)
 	UserGetDoctor(doctorId int) (models.DoctorResponse, error)
 
-	AdminListAccounts(from int, count int) ([]models.AccountResponse, error)
+	AdminListAccounts(from int, count int) ([]models.AdminAccountResponse, error)
 	AdminCreateAccount(req models.AdminAccountRequest) (int, error)
 	AdminUpdateAccount(accountId int, req models.AdminAccountRequest) error
 	AdminDeleteAccount(accountId int) error

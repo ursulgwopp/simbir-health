@@ -26,8 +26,10 @@ func (s *Service) SignIn(req models.SignInRequest) (string, error) {
 			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
 			IssuedAt:  time.Now().Unix(),
 		},
-		UserId:  tokenInfo.UserId,
-		IsAdmin: tokenInfo.IsAdmin,
+		UserId:    tokenInfo.UserId,
+		IsAdmin:   tokenInfo.IsAdmin,
+		IsManager: tokenInfo.IsManager,
+		IsDoctor:  tokenInfo.IsDoctor,
 	})
 
 	return token.SignedString([]byte(os.Getenv("SECRET_KEY")))

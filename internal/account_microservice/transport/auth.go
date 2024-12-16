@@ -72,7 +72,7 @@ func (t *Transport) signIn(c *gin.Context) {
 // @ID sign-out
 // @Accept  json
 // @Produce  json
-// @Success 200 {integer} models.Response
+// @Success 200 {object} models.Response
 // @Failure 400,404 {object} models.Response
 // @Failure 500 {object} models.Response
 // @Failure default {object} models.Response

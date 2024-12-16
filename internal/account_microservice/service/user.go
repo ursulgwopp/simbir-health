@@ -7,6 +7,7 @@ func (s *Service) UserGetAccount(accountId int) (models.AccountResponse, error) 
 }
 
 func (s *Service) UserUpdateAccount(accountId int, req models.AccountUpdate) error {
+	req.Password = generatePasswordHash(req.Password)
 	return s.repo.UserUpdateAccount(accountId, req)
 }
 
