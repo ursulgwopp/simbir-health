@@ -77,6 +77,17 @@ definitions:
       username:
         type: string
     type: object
+  models.TokenInfo:
+    properties:
+      is_admin:
+        type: boolean
+      is_doctor:
+        type: boolean
+      is_manager:
+        type: boolean
+      user_id:
+        type: integer
+    type: object
 host: localhost:8081
 info:
   contact: {}
@@ -388,13 +399,17 @@ paths:
         "200":
           description: OK
           schema:
-            type: integer
+            $ref: '#/definitions/models.Response'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Response'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/models.Response'
         "500":
@@ -423,10 +438,6 @@ paths:
             $ref: '#/definitions/models.Response'
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
           schema:
             $ref: '#/definitions/models.Response'
         "500":
@@ -458,16 +469,16 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
-            type: integer
+            $ref: '#/definitions/models.Response'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/models.Response'
         "500":
@@ -498,9 +509,13 @@ paths:
         "200":
           description: OK
           schema:
-            type: integer
+            $ref: '#/definitions/models.TokenInfo'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "401":
+          description: Unauthorized
           schema:
             $ref: '#/definitions/models.Response'
         "404":

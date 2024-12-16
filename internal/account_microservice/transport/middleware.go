@@ -1,17 +1,17 @@
 package transport
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ursulgwopp/simbir-health/internal/account_microservice/custom_errors"
 	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
 )
 
 func (t *Transport) userIdentity(c *gin.Context) {
 	header := c.GetHeader("Authorization")
 	if header == "" {
-		models.NewErrorResponse(c, http.StatusBadRequest, "empty auth header")
+		models.NewErrorResponse(c, http.StatusBadRequest, custom_errors.ErrEmptyAuthHeader.Error())
 		return
 	}
 
@@ -22,7 +22,7 @@ func (t *Transport) userIdentity(c *gin.Context) {
 	}
 
 	if invalid {
-		models.NewErrorResponse(c, http.StatusUnauthorized, "token is invalid")
+		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrInvalidToken.Error())
 		return
 	}
 
@@ -40,7 +40,7 @@ func (t *Transport) userIdentity(c *gin.Context) {
 func (t *Transport) adminIdentity(c *gin.Context) {
 	header := c.GetHeader("Authorization")
 	if header == "" {
-		models.NewErrorResponse(c, http.StatusBadRequest, "empty auth header")
+		models.NewErrorResponse(c, http.StatusBadRequest, custom_errors.ErrEmptyAuthHeader.Error())
 		return
 	}
 
@@ -51,7 +51,7 @@ func (t *Transport) adminIdentity(c *gin.Context) {
 	}
 
 	if invalid {
-		models.NewErrorResponse(c, http.StatusUnauthorized, "token is invalid")
+		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrInvalidToken.Error())
 		return
 	}
 
@@ -62,7 +62,7 @@ func (t *Transport) adminIdentity(c *gin.Context) {
 	}
 
 	if !tokenInfo.IsAdmin {
-		models.NewErrorResponse(c, http.StatusForbidden, "access denied")
+		models.NewErrorResponse(c, http.StatusForbidden, custom_errors.ErrAccessDenied.Error())
 		return
 	}
 }
@@ -70,26 +70,26 @@ func (t *Transport) adminIdentity(c *gin.Context) {
 func getUserId(c *gin.Context) (int, error) {
 	id, ok := c.Get("user_id")
 	if !ok {
-		return 0, errors.New("user id not found")
+		return 0, custom_errors.ErrUserIdNotFound
 	}
 
 	idInt, ok := id.(int)
 	if !ok {
-		return 0, errors.New("user id is of invalid type")
+		return 0, custom_errors.ErrInvalidUserId
 	}
 
 	return idInt, nil
 }
 
 func getToken(c *gin.Context) (string, error) {
-	id, ok := c.Get("token")
+	token_, ok := c.Get("token")
 	if !ok {
-		return "", errors.New("token not found")
+		return "", custom_errors.ErrUserIdNotFound
 	}
 
-	token, ok := id.(string)
+	token, ok := token_.(string)
 	if !ok {
-		return "", errors.New("token is of invalid type")
+		return "", custom_errors.ErrInvalidTokenType
 	}
 
 	return token, nil

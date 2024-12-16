@@ -4,10 +4,22 @@ import (
 	"slices"
 
 	"github.com/lib/pq"
+	"github.com/ursulgwopp/simbir-health/internal/account_microservice/custom_errors"
 	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
 )
 
 func (r *PostgresRepository) SignUp(req models.SignUpRequest) (int, error) {
+	// CHECKING IF USERNAME EXISTS
+	exists, err := CheckUsernameExists(r.db, req.Username)
+	if err != nil {
+		return -1, err
+	}
+
+	if exists {
+		return -1, custom_errors.ErrUsernameExists
+	}
+
+	// INSERTING NEW ACCOUNT INTO TABLE
 	var id int
 	query := `INSERT INTO accounts (last_name, first_name, username, hash_password) VALUES ($1, $2, $3, $4) RETURNING id`
 
@@ -20,15 +32,21 @@ func (r *PostgresRepository) SignUp(req models.SignUpRequest) (int, error) {
 }
 
 func (r *PostgresRepository) SignIn(req models.SignInRequest) (models.TokenInfo, error) {
+	// SIGNING IN TO ACCOUNT
 	var id int
 	var roles []string
 	query := `SELECT id, roles FROM accounts WHERE username = $1 AND hash_password = $2`
 
 	row := r.db.QueryRow(query, req.Username, req.Password)
 	if err := row.Scan(&id, pq.Array(&roles)); err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			return models.TokenInfo{}, custom_errors.ErrSignIn
+		}
+
 		return models.TokenInfo{}, err
 	}
 
+	// SETTING TOKEN INFO
 	isAdmin := slices.Contains(roles, "Admin")
 	isManager := slices.Contains(roles, "Manager")
 	isDoctor := slices.Contains(roles, "Doctor")
