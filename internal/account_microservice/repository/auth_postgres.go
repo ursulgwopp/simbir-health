@@ -35,7 +35,7 @@ func (r *PostgresRepository) SignIn(req models.SignInRequest) (models.TokenInfo,
 	// SIGNING IN TO ACCOUNT
 	var id int
 	var roles []string
-	query := `SELECT id, roles FROM accounts WHERE username = $1 AND hash_password = $2`
+	query := `SELECT id, roles FROM accounts WHERE username = $1 AND hash_password = $2 AND is_deleted = false`
 
 	row := r.db.QueryRow(query, req.Username, req.Password)
 	if err := row.Scan(&id, pq.Array(&roles)); err != nil {

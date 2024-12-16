@@ -22,7 +22,7 @@ func validateName(last_name string, first_name string) error {
 	}
 
 	if len(first_name) < 2 || len(first_name) > 30 {
-		return custom_errors.ErrLFirstNameInvalid
+		return custom_errors.ErrFirstNameInvalid
 	}
 
 	return nil

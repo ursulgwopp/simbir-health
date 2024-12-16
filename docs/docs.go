@@ -37,14 +37,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "from",
+                        "description": "From",
                         "name": "from",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "integer",
-                        "description": "count",
+                        "description": "Count",
                         "name": "count",
                         "in": "query",
                         "required": true
@@ -62,12 +62,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
                         }
@@ -128,8 +122,8 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.Response"
                         }
                     },
-                    "404": {
-                        "description": "Not Found",
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
                         }
@@ -177,12 +171,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
                         }
@@ -247,6 +235,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
                         }
@@ -318,6 +312,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
                         }
@@ -426,17 +426,11 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
                         }
@@ -662,12 +656,6 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.Response"
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
                     "404": {
                         "description": "Not Found",
                         "schema": {
@@ -711,14 +699,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "from",
+                        "description": "From",
                         "name": "from",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "integer",
-                        "description": "count",
+                        "description": "Count",
                         "name": "count",
                         "in": "query",
                         "required": true
@@ -736,12 +724,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
                         }

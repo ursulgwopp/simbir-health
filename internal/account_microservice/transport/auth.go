@@ -33,7 +33,7 @@ func (t *Transport) signUp(c *gin.Context) {
 	// PASSING BODY TO SERVICE LAYER
 	id, err := t.service.SignUp(req)
 	if err != nil {
-		if errors.Is(err, custom_errors.ErrLFirstNameInvalid) ||
+		if errors.Is(err, custom_errors.ErrFirstNameInvalid) ||
 			errors.Is(err, custom_errors.ErrLastNameInvalid) ||
 			errors.Is(err, custom_errors.ErrUsernameInvalidCharacters) ||
 			errors.Is(err, custom_errors.ErrUsernameInvalidLength) ||

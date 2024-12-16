@@ -101,12 +101,12 @@ paths:
       description: Admin List Accounts
       operationId: admin-list-accounts
       parameters:
-      - description: from
+      - description: From
         in: query
         name: from
         required: true
         type: integer
-      - description: count
+      - description: Count
         in: query
         name: count
         required: true
@@ -122,10 +122,6 @@ paths:
             type: array
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
           schema:
             $ref: '#/definitions/models.Response'
         "500":
@@ -164,8 +160,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/models.Response'
         "500":
@@ -253,6 +249,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
@@ -281,10 +281,6 @@ paths:
             $ref: '#/definitions/models.AccountResponse'
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
           schema:
             $ref: '#/definitions/models.Response'
         "500":
@@ -328,6 +324,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Response'
         "500":
           description: Internal Server Error
           schema:
@@ -360,13 +360,9 @@ paths:
         "200":
           description: OK
           schema:
-            type: integer
+            $ref: '#/definitions/models.Response'
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
           schema:
             $ref: '#/definitions/models.Response'
         "500":
@@ -514,10 +510,6 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/models.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Response'
         "404":
           description: Not Found
           schema:
@@ -540,12 +532,12 @@ paths:
       description: List Doctors
       operationId: list-doctors
       parameters:
-      - description: from
+      - description: From
         in: query
         name: from
         required: true
         type: integer
-      - description: count
+      - description: Count
         in: query
         name: count
         required: true
@@ -561,10 +553,6 @@ paths:
             type: array
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
           schema:
             $ref: '#/definitions/models.Response'
         "500":
