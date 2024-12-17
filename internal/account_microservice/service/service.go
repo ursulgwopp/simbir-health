@@ -7,7 +7,6 @@ type AccountRepository interface {
 	SignIn(req models.SignInRequest) (models.TokenInfo, error)
 	SignOut(token string) error
 
-	// Validate(token string) (models.AccountResponse, error)
 	Refresh(token string) error
 	IsTokenInvalid(token string) (bool, error)
 

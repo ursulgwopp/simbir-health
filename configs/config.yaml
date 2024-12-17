@@ -1,9 +1,17 @@
-port: "8081"
+accountMicroservicePort: "8081"
 
-db:
-  # host:     "db"
+accountMicroserviceDb:
   host: "localhost"
   port:     "5432"
   username: "postgres"
   dbname:   "account_microservice"
+  sslmode:  "disable"
+
+hospitalMicroservicePort: "8082"
+
+hospitalMicroserviceDb:
+  host: "localhost"
+  port:     "5432"
+  username: "postgres"
+  dbname:   "hospital_microservice"
   sslmode:  "disable"
