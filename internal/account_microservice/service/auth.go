@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/ursulgwopp/simbir-health/internal/models"
+	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
 )
 
 func (s *Service) SignUp(req models.SignUpRequest) (int, error) {

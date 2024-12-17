@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/ursulgwopp/simbir-health/internal/models"
+	"github.com/ursulgwopp/simbir-health/internal/hospital_microservice/models"
 )
 
 type HospitalRepository interface {

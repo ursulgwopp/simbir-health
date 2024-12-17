@@ -2,8 +2,8 @@ package repository
 
 import (
 	"github.com/lib/pq"
+	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
 	"github.com/ursulgwopp/simbir-health/internal/custom_errors"
-	"github.com/ursulgwopp/simbir-health/internal/models"
 )
 
 func (r *PostgresRepository) AdminListAccounts(from int, count int) ([]models.AdminAccountResponse, error) {

@@ -1,16 +1,17 @@
 package transport
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ursulgwopp/simbir-health/internal/custom_errors"
-	"github.com/ursulgwopp/simbir-health/internal/models"
+	"github.com/ursulgwopp/simbir-health/internal/hospital_microservice/models"
 )
 
-const host = "localhost:8082"
+const acccountMicroserviceHost = "http://localhost:8081"
 
 func SendRequest(method string, url string, body io.Reader) ([]byte, int, error) {
 	req, err := http.NewRequest(method, url, nil)
@@ -33,13 +34,13 @@ func SendRequest(method string, url string, body io.Reader) ([]byte, int, error)
 }
 
 func (t *Transport) userIdentity(c *gin.Context) {
-	accessToken := c.Query("accessToken")
-	if accessToken == "" {
+	token := c.GetHeader("Authorization")
+	if token == "" {
 		models.NewErrorResponse(c, http.StatusBadRequest, custom_errors.ErrEmptyAuthHeader.Error())
 		return
 	}
 
-	_, code, err := SendRequest("GET", host+fmt.Sprintf("/api/Authentication/Validate?accessToken=%s", accessToken), nil)
+	_, code, err := SendRequest("GET", acccountMicroserviceHost+fmt.Sprintf("/api/Authentication/Validate?accessToken=%s", token), nil)
 	if err != nil {
 		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrAccessDenied.Error())
 		return
@@ -47,6 +48,36 @@ func (t *Transport) userIdentity(c *gin.Context) {
 
 	if code != 200 {
 		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrAccessDenied.Error())
+		return
+	}
+}
+
+func (t *Transport) adminIdentity(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	if token == "" {
+		models.NewErrorResponse(c, http.StatusBadRequest, custom_errors.ErrEmptyAuthHeader.Error())
+		return
+	}
+
+	resp, code, err := SendRequest("GET", acccountMicroserviceHost+fmt.Sprintf("/api/Authentication/Validate?accessToken=%s", token), nil)
+	if err != nil {
+		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrAccessDenied.Error())
+		return
+	}
+
+	if code != 200 {
+		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrAccessDenied.Error())
+		return
+	}
+
+	var tokenClaims models.TokenClaims
+	if err := json.Unmarshal(resp, &tokenClaims); err != nil {
+		models.NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if !tokenClaims.IsAdmin {
+		models.NewErrorResponse(c, http.StatusForbidden, custom_errors.ErrAccessDenied.Error())
 		return
 	}
 }

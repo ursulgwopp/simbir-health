@@ -18,6 +18,15 @@ import (
 	"github.com/ursulgwopp/simbir-health/internal/hospital_microservice/transport"
 )
 
+// @title Hospital Microservice
+// @version 1.0
+
+// @host localhost:8082
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 

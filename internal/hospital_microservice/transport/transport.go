@@ -6,8 +6,8 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "github.com/ursulgwopp/simbir-health/docs"
-	"github.com/ursulgwopp/simbir-health/internal/models"
+	_ "github.com/ursulgwopp/simbir-health/internal/hospital_microservice/docs"
+	"github.com/ursulgwopp/simbir-health/internal/hospital_microservice/models"
 )
 
 type HospitalService interface {
@@ -34,12 +34,12 @@ func (t *Transport) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
-		hospitals := api.Group("/Hospitals")
+		hospitals := api.Group("/Hospital")
 		{
 			hospitals.GET("/", nil)
 			hospitals.GET("/:id", nil)
 			hospitals.GET("/:id/Rooms", nil)
-			hospitals.POST("/", nil)
+			hospitals.POST("/", t.adminIdentity, t.createHospital)
 			hospitals.PUT("/:id", nil)
 			hospitals.DELETE("/:id", nil)
 		}

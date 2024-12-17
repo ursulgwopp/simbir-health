@@ -2,12 +2,12 @@ package transport
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ursulgwopp/simbir-health/internal/models"
+	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "github.com/ursulgwopp/simbir-health/docs"
+	_ "github.com/ursulgwopp/simbir-health/internal/account_microservice/docs"
 )
 
 type AccountService interface {

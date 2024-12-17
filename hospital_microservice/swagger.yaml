@@ -1,0 +1,668 @@
+basePath: /
+definitions:
+  models.AccountResponse:
+    properties:
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+    type: object
+  models.AccountUpdate:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+    type: object
+  models.AdminAccountRequest:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+    type: object
+  models.DoctorResponse:
+    properties:
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      username:
+        type: string
+    type: object
+  models.HospitalRequest:
+    properties:
+      address:
+        type: string
+      contactPhone:
+        type: string
+      name:
+        type: string
+      rooms:
+        items:
+          type: string
+        type: array
+    type: object
+  models.RefreshRequest:
+    properties:
+      refreshToken:
+        type: string
+    type: object
+  models.Response:
+    properties:
+      message: {}
+    type: object
+  models.SignInRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.SignUpRequest:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.TokenInfo:
+    properties:
+      is_admin:
+        type: boolean
+      is_doctor:
+        type: boolean
+      is_manager:
+        type: boolean
+      user_id:
+        type: integer
+    type: object
+host: localhost:8082
+info:
+  contact: {}
+  title: Hospital Microservice
+  version: "1.0"
+paths:
+  /api/Accounts:
+    get:
+      consumes:
+      - application/json
+      description: Admin List Accounts
+      operationId: admin-list-accounts
+      parameters:
+      - description: From
+        in: query
+        name: from
+        required: true
+        type: integer
+      - description: Count
+        in: query
+        name: count
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.AdminAccountRequest'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: AdminListAccounts
+      tags:
+      - Admin
+    post:
+      consumes:
+      - application/json
+      description: Admin Create Account
+      operationId: admin-create-account
+      parameters:
+      - description: Account Info
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AdminAccountRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: AdminCreateAccount
+      tags:
+      - Admin
+  /api/Accounts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin Delete Account
+      operationId: admin-delete-account
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: AdminDeleteAccount
+      tags:
+      - Admin
+    put:
+      consumes:
+      - application/json
+      description: Admin Update Account
+      operationId: admin-update-account
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Account Info
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AdminAccountRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: AdminUpdateAccount
+      tags:
+      - Admin
+  /api/Accounts/Me:
+    get:
+      consumes:
+      - application/json
+      description: Get My Account
+      operationId: get-my-account
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AccountResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: GetAccount
+      tags:
+      - User
+  /api/Accounts/Update:
+    put:
+      consumes:
+      - application/json
+      description: Update My Account
+      operationId: update-my-account
+      parameters:
+      - description: Account Update
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AccountUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateAccount
+      tags:
+      - User
+  /api/Authentication/Refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh token
+      operationId: refresh
+      parameters:
+      - description: Refresh Token
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Refresh
+      tags:
+      - Authentication
+  /api/Authentication/SignIn:
+    post:
+      consumes:
+      - application/json
+      description: Sign Into Account
+      operationId: sign-in
+      parameters:
+      - description: Sign In Info
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: SignIn
+      tags:
+      - Authentication
+  /api/Authentication/SignOut:
+    put:
+      consumes:
+      - application/json
+      description: Sign Out from Account
+      operationId: sign-out
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: SignOut
+      tags:
+      - Authentication
+  /api/Authentication/SignUp:
+    post:
+      consumes:
+      - application/json
+      description: Create New Account
+      operationId: sign-up
+      parameters:
+      - description: Sign Up Info
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: SignUp
+      tags:
+      - Authentication
+  /api/Authentication/Validate:
+    get:
+      consumes:
+      - application/json
+      description: Validate token
+      operationId: validate
+      parameters:
+      - description: Access Token
+        in: query
+        name: accessToken
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TokenInfo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Validate
+      tags:
+      - Authentication
+  /api/Doctors:
+    get:
+      consumes:
+      - application/json
+      description: List Doctors
+      operationId: list-doctors
+      parameters:
+      - description: From
+        in: query
+        name: from
+        required: true
+        type: integer
+      - description: Count
+        in: query
+        name: count
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.DoctorResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: List Doctors
+      tags:
+      - User
+  /api/Doctors/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Doctor
+      operationId: get-doctor
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DoctorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: GetDoctor
+      tags:
+      - User
+  /api/Hospital:
+    post:
+      consumes:
+      - application/json
+      description: Add Hospital
+      operationId: add-hospital
+      parameters:
+      - description: Hospital Info
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/models.HospitalRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Response'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: AddHospital
+      tags:
+      - Hospital
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

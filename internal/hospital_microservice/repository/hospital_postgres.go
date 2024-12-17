@@ -1,12 +1,22 @@
 package repository
 
 import (
-	"github.com/ursulgwopp/simbir-health/internal/models"
+	"github.com/lib/pq"
+	"github.com/ursulgwopp/simbir-health/internal/hospital_microservice/models"
 )
 
 // CreateHospital implements service.HospitalRepository.
-func (*PostgresRepository) CreateHospital(req models.HospitalRequest) (int, error) {
-	panic("unimplemented")
+func (r *PostgresRepository) CreateHospital(req models.HospitalRequest) (int, error) {
+	// INSERTING ACCOUNT INTO ACCOUNTS
+	var id int
+	query := `INSERT INTO hospitals (name, address, contact_phone, rooms) VALUES ($1, $2, $3, $4) RETURNING id`
+
+	row := r.db.QueryRow(query, req.Name, req.Address, req.ContactPhone, pq.Array(req.Rooms))
+	if err := row.Scan(&id); err != nil {
+		return -1, err
+	}
+
+	return id, nil
 }
 
 // DeleteHospital implements service.HospitalRepository.
