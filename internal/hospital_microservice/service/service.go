@@ -1,6 +1,8 @@
 package service
 
-import "github.com/ursulgwopp/simbir-health/internal/hospital_microservice/models"
+import (
+	"github.com/ursulgwopp/simbir-health/internal/models"
+)
 
 type HospitalRepository interface {
 	ListHospitals(from int, count int) ([]models.HospitalResponse, error)

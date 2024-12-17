@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ursulgwopp/simbir-health/internal/account_microservice/custom_errors"
-	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
+	"github.com/ursulgwopp/simbir-health/internal/custom_errors"
+	"github.com/ursulgwopp/simbir-health/internal/models"
 )
 
 // @Router /api/Accounts/Me [get]
@@ -162,7 +162,7 @@ func (t *Transport) userGetDoctor(c *gin.Context) {
 		return
 	}
 
-	// PASSING DATA TO SERVICE LAYER
+	// PASSING DATA TO SERVICE
 	doctor, err := t.service.UserGetDoctor(doctorId)
 	if err != nil {
 		if errors.Is(err, custom_errors.ErrUserIdNotFound) {

@@ -1,6 +1,8 @@
 package repository
 
-import "github.com/ursulgwopp/simbir-health/internal/hospital_microservice/models"
+import (
+	"github.com/ursulgwopp/simbir-health/internal/models"
+)
 
 // CreateHospital implements service.HospitalRepository.
 func (*PostgresRepository) CreateHospital(req models.HospitalRequest) (int, error) {

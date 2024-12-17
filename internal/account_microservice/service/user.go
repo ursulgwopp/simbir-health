@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/ursulgwopp/simbir-health/internal/account_microservice/custom_errors"
-	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
+	"github.com/ursulgwopp/simbir-health/internal/custom_errors"
+	"github.com/ursulgwopp/simbir-health/internal/models"
 )
 
 func (s *Service) UserGetAccount(accountId int) (models.AccountResponse, error) {

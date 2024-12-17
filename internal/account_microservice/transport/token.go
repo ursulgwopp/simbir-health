@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ursulgwopp/simbir-health/internal/account_microservice/custom_errors"
-	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
+	"github.com/ursulgwopp/simbir-health/internal/custom_errors"
+	"github.com/ursulgwopp/simbir-health/internal/models"
 )
 
 // @Router /api/Authentication/Validate [get]

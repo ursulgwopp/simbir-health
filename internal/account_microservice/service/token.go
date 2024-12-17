@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
+	"github.com/ursulgwopp/simbir-health/internal/models"
 )
 
 func (s *Service) Validate(token string) (models.TokenInfo, error) {

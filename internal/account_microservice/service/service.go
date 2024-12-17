@@ -1,6 +1,6 @@
 package service
 
-import "github.com/ursulgwopp/simbir-health/internal/account_microservice/models"
+import "github.com/ursulgwopp/simbir-health/internal/models"
 
 type AccountRepository interface {
 	SignUp(req models.SignUpRequest) (int, error)
