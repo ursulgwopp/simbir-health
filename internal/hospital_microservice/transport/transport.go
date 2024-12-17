@@ -36,12 +36,12 @@ func (t *Transport) InitRoutes() *gin.Engine {
 	{
 		hospitals := api.Group("/Hospital")
 		{
-			hospitals.GET("/", nil)
-			hospitals.GET("/:id", nil)
-			hospitals.GET("/:id/Rooms", nil)
+			hospitals.GET("/", t.userIdentity, t.listHospitals)
+			hospitals.GET("/:id", t.userIdentity, t.getHospital)
+			hospitals.GET("/:id/Rooms", t.userIdentity, t.getHospitalRooms)
 			hospitals.POST("/", t.adminIdentity, t.createHospital)
-			hospitals.PUT("/:id", nil)
-			hospitals.DELETE("/:id", nil)
+			hospitals.PUT("/:id", t.adminIdentity, t.updateHospital)
+			hospitals.DELETE("/:id", t.adminIdentity, t.deleteHospital)
 		}
 	}
 

@@ -14,7 +14,7 @@ func (r *PostgresRepository) UserGetAccount(accountId int) (models.AccountRespon
 	}
 
 	if !exists {
-		return models.AccountResponse{}, custom_errors.ErrUserIdNotFound
+		return models.AccountResponse{}, custom_errors.ErrIdNotFound
 
 	}
 
@@ -39,7 +39,7 @@ func (r *PostgresRepository) UserUpdateAccount(accountId int, req models.Account
 	}
 
 	if !exists {
-		return custom_errors.ErrUserIdNotFound
+		return custom_errors.ErrIdNotFound
 
 	}
 
@@ -89,7 +89,7 @@ func (r *PostgresRepository) UserGetDoctor(doctorId int) (models.DoctorResponse,
 	}
 
 	if !exists {
-		return models.DoctorResponse{}, custom_errors.ErrUserIdNotFound
+		return models.DoctorResponse{}, custom_errors.ErrIdNotFound
 
 	}
 

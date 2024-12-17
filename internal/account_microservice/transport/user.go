@@ -31,7 +31,7 @@ func (t *Transport) userGetAccount(c *gin.Context) {
 
 	account, err := t.service.UserGetAccount(id)
 	if err != nil {
-		if errors.Is(err, custom_errors.ErrUserIdNotFound) {
+		if errors.Is(err, custom_errors.ErrIdNotFound) {
 			models.NewErrorResponse(c, http.StatusNotFound, err.Error())
 			return
 		}
@@ -82,7 +82,7 @@ func (t *Transport) userUpdateAccount(c *gin.Context) {
 			return
 		}
 
-		if errors.Is(err, custom_errors.ErrUserIdNotFound) {
+		if errors.Is(err, custom_errors.ErrIdNotFound) {
 			models.NewErrorResponse(c, http.StatusNotFound, err.Error())
 			return
 		}
@@ -165,7 +165,7 @@ func (t *Transport) userGetDoctor(c *gin.Context) {
 	// PASSING DATA TO SERVICE
 	doctor, err := t.service.UserGetDoctor(doctorId)
 	if err != nil {
-		if errors.Is(err, custom_errors.ErrUserIdNotFound) {
+		if errors.Is(err, custom_errors.ErrIdNotFound) {
 			models.NewErrorResponse(c, http.StatusNotFound, err.Error())
 			return
 		}

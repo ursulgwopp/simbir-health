@@ -151,7 +151,7 @@ func (t *Transport) adminUpdateAccount(c *gin.Context) {
 			return
 		}
 
-		if errors.Is(err, custom_errors.ErrUserIdNotFound) {
+		if errors.Is(err, custom_errors.ErrIdNotFound) {
 			models.NewErrorResponse(c, http.StatusNotFound, err.Error())
 			return
 		}
@@ -186,7 +186,7 @@ func (t *Transport) adminDeleteAccount(c *gin.Context) {
 
 	// PASSING PARAM TO SERVICE LAYER
 	if err := t.service.AdminDeleteAccount(accountId); err != nil {
-		if errors.Is(err, custom_errors.ErrUserIdNotFound) {
+		if errors.Is(err, custom_errors.ErrIdNotFound) {
 			models.NewErrorResponse(c, http.StatusNotFound, err.Error())
 			return
 		}

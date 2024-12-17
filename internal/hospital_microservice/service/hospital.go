@@ -1,32 +1,40 @@
 package service
 
 import (
+	"github.com/ursulgwopp/simbir-health/internal/custom_errors"
 	"github.com/ursulgwopp/simbir-health/internal/hospital_microservice/models"
 )
 
-// CreateHospital implements transport.HospitalService.
 func (s *Service) CreateHospital(req models.HospitalRequest) (int, error) {
+	if err := validateName(req.Name); err != nil {
+		return -1, custom_errors.ErrInvalidName
+	}
+
+	if err := validateAddress(req.Address); err != nil {
+		return -1, custom_errors.ErrInvalidAddress
+	}
+
+	if err := validatePhone(req.ContactPhone); err != nil {
+		return -1, custom_errors.ErrInvalidPhone
+	}
+
 	return s.repo.CreateHospital(req)
 }
 
-// DeleteHospital implements transport.HospitalService.
 func (s *Service) DeleteHospital(hospitalId int) error {
-	panic("unimplemented")
+	return s.repo.DeleteHospital(hospitalId)
 }
 
-// GetHospital implements transport.HospitalService.
 func (s *Service) GetHospital(hospitalId int) (models.HospitalResponse, error) {
-	panic("unimplemented")
+	return s.repo.GetHospital(hospitalId)
 }
 
-// GetHospitalRooms implements transport.HospitalService.
 func (s *Service) GetHospitalRooms(hospitalId int) ([]string, error) {
-	panic("unimplemented")
+	return s.repo.GetHospitalRooms(hospitalId)
 }
 
-// ListHospitals implements transport.HospitalService.
 func (s *Service) ListHospitals(from int, count int) ([]models.HospitalResponse, error) {
-	panic("unimplemented")
+	return s.repo.ListHospitals(from, count)
 }
 
 // UpdateHospital implements transport.HospitalService.

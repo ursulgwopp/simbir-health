@@ -83,7 +83,7 @@ func (r *PostgresRepository) AdminUpdateAccount(accountId int, req models.AdminA
 	}
 
 	if !exists {
-		return custom_errors.ErrUserIdNotFound
+		return custom_errors.ErrIdNotFound
 
 	}
 
@@ -102,7 +102,7 @@ func (r *PostgresRepository) AdminDeleteAccount(accountId int) error {
 	}
 
 	if !exists {
-		return custom_errors.ErrUserIdNotFound
+		return custom_errors.ErrIdNotFound
 
 	}
 

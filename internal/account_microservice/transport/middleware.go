@@ -70,7 +70,7 @@ func (t *Transport) adminIdentity(c *gin.Context) {
 func getUserId(c *gin.Context) (int, error) {
 	id, ok := c.Get("user_id")
 	if !ok {
-		return 0, custom_errors.ErrUserIdNotFound
+		return 0, custom_errors.ErrIdNotFound
 	}
 
 	idInt, ok := id.(int)
@@ -84,7 +84,7 @@ func getUserId(c *gin.Context) (int, error) {
 func getToken(c *gin.Context) (string, error) {
 	token_, ok := c.Get("token")
 	if !ok {
-		return "", custom_errors.ErrUserIdNotFound
+		return "", custom_errors.ErrIdNotFound
 	}
 
 	token, ok := token_.(string)

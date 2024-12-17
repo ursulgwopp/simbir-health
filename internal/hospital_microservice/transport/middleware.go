@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ursulgwopp/simbir-health/internal/custom_errors"
@@ -12,6 +13,15 @@ import (
 )
 
 const acccountMicroserviceHost = "http://localhost:8081"
+
+func parseId(c *gin.Context) (int, error) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return -1, err
+	}
+
+	return id, nil
+}
 
 func SendRequest(method string, url string, body io.Reader) ([]byte, int, error) {
 	req, err := http.NewRequest(method, url, nil)
@@ -42,12 +52,12 @@ func (t *Transport) userIdentity(c *gin.Context) {
 
 	_, code, err := SendRequest("GET", acccountMicroserviceHost+fmt.Sprintf("/api/Authentication/Validate?accessToken=%s", token), nil)
 	if err != nil {
-		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrAccessDenied.Error())
+		models.NewErrorResponse(c, http.StatusForbidden, custom_errors.ErrAccessDenied.Error())
 		return
 	}
 
 	if code != 200 {
-		models.NewErrorResponse(c, http.StatusUnauthorized, custom_errors.ErrAccessDenied.Error())
+		models.NewErrorResponse(c, http.StatusForbidden, custom_errors.ErrAccessDenied.Error())
 		return
 	}
 }
