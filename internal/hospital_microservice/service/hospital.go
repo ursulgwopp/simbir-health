@@ -38,6 +38,18 @@ func (s *Service) ListHospitals(from int, count int) ([]models.HospitalResponse,
 }
 
 // UpdateHospital implements transport.HospitalService.
-func (s *Service) UpdateHospital(hospitalId int, req models.HospitalResponse) error {
-	panic("unimplemented")
+func (s *Service) UpdateHospital(hospitalId int, req models.HospitalRequest) error {
+	if err := validateName(req.Name); err != nil {
+		return custom_errors.ErrInvalidName
+	}
+
+	if err := validateAddress(req.Address); err != nil {
+		return custom_errors.ErrInvalidAddress
+	}
+
+	if err := validatePhone(req.ContactPhone); err != nil {
+		return custom_errors.ErrInvalidPhone
+	}
+
+	return s.repo.UpdateHospital(hospitalId, req)
 }

@@ -107,6 +107,19 @@ func (r *PostgresRepository) ListHospitals(from int, count int) ([]models.Hospit
 }
 
 // UpdateHospital implements service.HospitalRepository.
-func (*PostgresRepository) UpdateHospital(hospitalId int, req models.HospitalResponse) error {
-	panic("unimplemented")
+func (r *PostgresRepository) UpdateHospital(hospitalId int, req models.HospitalRequest) error {
+	exists, err := CheckIdExists(r.db, hospitalId)
+	if err != nil {
+		return err
+	}
+
+	if !exists {
+		return custom_errors.ErrIdNotFound
+	}
+
+	// UPDATING Hospital
+	query := `UPDATE hospitals SET name = $1, address = $2, contact_phone = $3, rooms = $4 WHERE id = $5`
+
+	_, err = r.db.Exec(query, req.Name, req.Address, req.ContactPhone, pq.Array(req.Rooms), hospitalId)
+	return err
 }

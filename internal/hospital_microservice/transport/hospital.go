@@ -186,6 +186,45 @@ func (t *Transport) deleteHospital(c *gin.Context) {
 	c.JSON(http.StatusOK, "hospital successfully deleted")
 }
 
+// @Router /api/Hospital/{id} [put]
+// @Summary UpdateHospital
+// @Security ApiKeyAuth
+// @Tags Hospital
+// @Description Update Hospital
+// @ID update-hospital
+// @Accept json
+// @Produce json
+// @Param id path int true "id"
+// @Param Input body models.HospitalRequest true "Hospital Info"
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.Response
+// @Failure 500 {object} models.Response
+// @Failure default {object} models.Response
 func (t *Transport) updateHospital(c *gin.Context) {
-	// UPDATE METHOD
+	id, err := parseId(c)
+	if err != nil {
+		models.NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	var req models.HospitalRequest
+
+	if err := c.BindJSON(&req); err != nil {
+		models.NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := t.service.UpdateHospital(id, req); err != nil {
+		if errors.Is(err, custom_errors.ErrInvalidName) ||
+			errors.Is(err, custom_errors.ErrInvalidAddress) ||
+			errors.Is(err, custom_errors.ErrInvalidPhone) {
+			models.NewErrorResponse(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		models.NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, "hospital successfully updated")
 }
